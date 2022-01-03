@@ -1,10 +1,19 @@
 import React from 'react';
+import DiscordButton from './components/DiscordButton';
+
+/* Todo: 
+Add Discord login button
+Add Chat logo
+Add rooms and add button
+Add room names
+Add the converstion and button */
 
 const Aside = () => {
   return (
-    <aside class='w-full sm:w-80 px-2 bg-red-400'>
-      <div class='top-0 p-4 w-full'>
-        <ul class='flex flex-col overflow-hidden'>yooo</ul>
+    <aside className='w-full sm:w-80 px-2 bg-green-900'>
+      <div className='top-0 p-4 w-full flex flex-col items-center'>
+        <DiscordButton />
+        {/* <ul className='flex flex-col overflow-hidden'></ul> */}
       </div>
     </aside>
   );

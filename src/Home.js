@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const emphasisWords = 'text-red-600 hover:text-red-400 hover:cursor-pointer';
 const textColor = 'text-zinc-700 text-sm font-ps2 mb-2';
 
-function Home() {
+const Home = () => {
   return (
-    <div className='bg-orange-200 h-full px-8 py-2 flex flex-col justify-center items-center sm:w-full h-screen'>
+    <div className='bg-orange-100 h-full px-8 py-2 flex flex-col justify-center items-center sm:w-full h-screen'>
       <h1 className='text-4xl font-ps2 mb-2 font-bold'>
         <span className='text-green-500'>8</span>
         <span className='text-blue-500'> B</span>
@@ -39,6 +39,6 @@ function Home() {
       </p>
     </div>
   );
-}
+};
 
 export default Home;

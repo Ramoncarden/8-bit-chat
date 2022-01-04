@@ -2,10 +2,15 @@ import { React } from 'react';
 import Home from './Home';
 import './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheckSquare, faGamepad } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheckSquare,
+  faCircle,
+  faComment,
+  faGamepad,
+} from '@fortawesome/free-solid-svg-icons';
 import Aside from './Aside';
 
-library.add(faGamepad, faCheckSquare);
+library.add(faGamepad, faCheckSquare, faComment, faCircle);
 
 function App() {
   return (

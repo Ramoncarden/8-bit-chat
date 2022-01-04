@@ -1,5 +1,7 @@
 import React from 'react';
 import DiscordButton from './components/DiscordButton';
+import ChatButton from './components/ChatButton';
+import Rooms from './components/Rooms';
 
 /* Todo: 
 Add Discord login button
@@ -15,6 +17,8 @@ const Aside = () => {
         <DiscordButton />
         {/* <ul className='flex flex-col overflow-hidden'></ul> */}
       </div>
+      <ChatButton />
+      <Rooms />
     </aside>
   );
 };

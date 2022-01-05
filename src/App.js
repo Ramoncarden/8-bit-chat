@@ -9,6 +9,9 @@ import {
   faGamepad,
 } from '@fortawesome/free-solid-svg-icons';
 import Aside from './Aside';
+import { Routes, Route, Link } from 'react-router-dom';
+import ChatRoom from './components/ChatRoom';
+import NoMatch from './NoMatch';
 
 library.add(faGamepad, faCheckSquare, faComment, faCircle);
 
@@ -16,12 +19,20 @@ function App() {
   return (
     <div className='App h-full flex flex-col sm:flex-row'>
       <Aside />
-      <Home />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='rooms/*' element={<ChatRoom />} />
+        <Route path='*' element={<NoMatch />} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
+
+// TODO:
+// Create a Login
+// Turn Routes to private and visible depending if user is logged in
 
 /* User Stories
  User is prompted to enter a username when he visits the chat app. The username will be stored in the application

@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       <div className='bg-orange-100 h-full px-8 py-2 flex flex-col justify-center items-center sm:w-full h-screen bg-animation bg-contain brightness-50'></div>
-      <section className='bg-orange-100 p-10 rounded-lg drop-shadow-2xl absolute absolute top-1/2 left-1/2 transform -translate-x-1/3 -translate-y-1/2'>
+      <section className='bg-orange-100 p-10 rounded-lg drop-shadow-2xl absolute absolute top-1/2 left-1/2 transform -translate-x-1/3 -translate-y-1/2 text-center'>
         <h1 className='text-4xl font-ps2 mb-2 font-bold'>
           <span className='text-green-500'>8</span>
           <span className='text-blue-500'> B</span>

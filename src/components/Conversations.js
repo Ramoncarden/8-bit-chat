@@ -1,11 +1,13 @@
 import React from 'react';
 import AddNewButton from './AddNewButton';
 
-const Rooms = () => {
+const Conversations = () => {
   return (
-    <section className='h-1/6'>
+    <section>
       <header className='h-10'>
-        <h2 className='font-ps2 text-yellow-700 float-left ml-4'>ROOMS</h2>
+        <h2 className='font-ps2 text-yellow-700 float-left ml-4'>
+          CONVERSATIONS
+        </h2>
         <AddNewButton />
       </header>
       <ul className='mt-1 flex flex-col float-left ml-4 tracking-wider'>
@@ -20,4 +22,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default Conversations;

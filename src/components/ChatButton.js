@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ChatButton = () => {
   return (
-    <div className='h-24 mt-48'>
+    <div className='h-24 mt-16'>
       <Link className='flex w-2/3' to='/'>
         <span className='fa-layers fa-2x mr-8 ml-2 mt-1'>
           <FontAwesomeIcon

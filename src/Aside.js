@@ -2,6 +2,7 @@ import React from 'react';
 import DiscordButton from './components/DiscordButton';
 import ChatButton from './components/ChatButton';
 import Rooms from './components/Rooms';
+import Conversations from './components/Conversations';
 
 /* Todo: 
 Add Discord login button
@@ -19,6 +20,7 @@ const Aside = () => {
       </div>
       <ChatButton />
       <Rooms />
+      <Conversations />
     </aside>
   );
 };

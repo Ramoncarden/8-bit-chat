@@ -5,10 +5,12 @@ import ChatRoom from './ChatRoom';
 
 const Rooms = () => {
   return (
-    <section className='h-1/6'>
+    <section className='h-1/6 mb-3'>
       <header className='h-10'>
         <h2 className='font-ps2 text-yellow-700 float-left ml-4'>ROOMS</h2>
-        <AddNewButton />
+        <Link to='/rooms/new'>
+          <AddNewButton />
+        </Link>
       </header>
       <ul className='mt-1 flex flex-col float-left ml-4 tracking-wider'>
         <li className='w-full text-slate-300 hover:text-slate-50 mb-1 hover:cursor-pointer'>

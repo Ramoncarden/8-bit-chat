@@ -1,6 +1,7 @@
-/* .App {
-  text-align: center;
-} */
+.App {
+  /* text-align: center; */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 
 :root {
   --discord-blue: #5865f2;

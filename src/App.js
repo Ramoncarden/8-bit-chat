@@ -1,6 +1,7 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import Home from './Home';
 import './App.css';
+// import { MessageProvider } from "./Context/MessageContext";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCheckSquare,
@@ -9,21 +10,43 @@ import {
   faGamepad,
 } from '@fortawesome/free-solid-svg-icons';
 import Aside from './Aside';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useMatch } from 'react-router-dom';
 import ChatRoom from './components/ChatRoom';
 import NoMatch from './NoMatch';
+import { ChatProvider } from './Context/ChatContext';
+import NewRoom from './forms/NewRoom';
+import NewConverstaion from './forms/NewConverstaion';
 
 library.add(faGamepad, faCheckSquare, faComment, faCircle);
+
+function useAside() {
+  const matchRooms = useMatch('rooms/*');
+
+  if (matchRooms === null) {
+    return <Aside />;
+  }
+  return null;
+}
 
 function App() {
   return (
     <div className='App h-full flex flex-col sm:flex-row'>
-      <Aside />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='rooms/*' element={<ChatRoom />} />
-        <Route path='*' element={<NoMatch />} />
-      </Routes>
+      {/* <MessageProvider> */}
+      <ChatProvider>
+        <Routes>
+          <Route path='rooms/new' element={null} />
+          <Route path='converstions/new' element={null} />
+          <Route path='*' element={<Aside />} />
+        </Routes>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='rooms/*' element={<ChatRoom />} />
+          <Route path='rooms/new' element={<NewRoom />} />
+          <Route path='conversations/new' element={<NewConverstaion />} />
+          <Route path='*' element={<NoMatch />} />
+        </Routes>
+      </ChatProvider>
+      {/* </MessageProvider> */}
     </div>
   );
 }

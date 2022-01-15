@@ -16,6 +16,8 @@ import NoMatch from './NoMatch';
 import { ChatProvider } from './Context/ChatContext';
 import NewRoom from './forms/NewRoom';
 import NewConverstaion from './forms/NewConverstaion';
+import NewUser from './Auth/NewUser';
+import Login from './Auth/Login';
 
 library.add(faGamepad, faCheckSquare, faComment, faCircle);
 
@@ -36,12 +38,18 @@ function App() {
         <Routes>
           <Route path='rooms/new' element={null} />
           <Route path='converstions/new' element={null} />
+          <Route path='users/new' element={null} />
+          <Route path='users/login' element={null} />
           <Route path='*' element={<Aside />} />
         </Routes>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='rooms/*' element={<ChatRoom />} />
           <Route path='rooms/new' element={<NewRoom />} />
+          <Route path='users/*'>
+            <Route path='new' element={<NewUser />} />
+            <Route path='login' element={<Login />} />
+          </Route>
           <Route path='conversations/new' element={<NewConverstaion />} />
           <Route path='*' element={<NoMatch />} />
         </Routes>

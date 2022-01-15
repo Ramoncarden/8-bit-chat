@@ -5,7 +5,6 @@ import MessageInput from './MessageInput';
 
 const ChatRoom = () => {
   const { formData, setFormData } = useContext(ChatContext);
-  const date = new Date();
   const time = new Date().toLocaleString();
   return (
     <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>

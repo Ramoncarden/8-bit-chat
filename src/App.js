@@ -1,23 +1,26 @@
-import { React, useState } from 'react';
-import Home from './Home';
+import { React, useState, useEffect } from 'react';
+import { supabase } from './supabaseClient';
+import { Routes, Route, Link, useMatch } from 'react-router-dom';
 import './App.css';
-// import { MessageProvider } from "./Context/MessageContext";
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { ChatProvider } from './Context/ChatContext';
 import {
   faCheckSquare,
   faCircle,
   faComment,
   faGamepad,
 } from '@fortawesome/free-solid-svg-icons';
+import Home from './Home';
 import Aside from './Aside';
-import { Routes, Route, Link, useMatch } from 'react-router-dom';
 import ChatRoom from './components/ChatRoom';
 import NoMatch from './NoMatch';
-import { ChatProvider } from './Context/ChatContext';
 import NewRoom from './forms/NewRoom';
 import NewConverstaion from './forms/NewConverstaion';
 import NewUser from './Auth/NewUser';
 import Login from './Auth/Login';
+
+import Toast from './components/Toast';
+import Account from './Account';
 
 library.add(faGamepad, faCheckSquare, faComment, faCircle);
 
@@ -31,9 +34,18 @@ function useAside() {
 }
 
 function App() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    setSession(supabase.auth.session());
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   return (
     <div className='App h-full flex flex-col sm:flex-row'>
-      {/* <MessageProvider> */}
       <ChatProvider>
         <Routes>
           <Route path='rooms/new' element={null} />
@@ -53,8 +65,12 @@ function App() {
           <Route path='conversations/new' element={<NewConverstaion />} />
           <Route path='*' element={<NoMatch />} />
         </Routes>
+        {!session ? (
+          <h1 className='bg-white-100'>hi</h1>
+        ) : (
+          <Account key={session.user.id} session={session} />
+        )}
       </ChatProvider>
-      {/* </MessageProvider> */}
     </div>
   );
 }

@@ -1,12 +1,10 @@
-import React from 'react';
-
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { supabase } from '../supabaseClient';
+import { Link, useNavigate } from 'react-router-dom';
 import swords from '../assets/swords.png';
 
 const Login = () => {
   const location = useNavigate();
-
   const close = () => location('/');
 
   return (

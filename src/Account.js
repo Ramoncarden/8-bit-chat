@@ -60,11 +60,7 @@ const Account = ({ session }) => {
     }
   };
 
-  return (
-    <div>
-      <h1>Welcome {username}</h1>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Account;

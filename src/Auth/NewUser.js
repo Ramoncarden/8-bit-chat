@@ -1,34 +1,36 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useHistory } from 'react-router-dom';
 import swords from '../assets/swords.png';
 import Toast from '../components/Toast';
 import { supabase } from '../supabaseClient';
 import ChatContext from '../Context/ChatContext';
+import AuthContext from '../Context/AuthContext';
 
 const NewUser = () => {
-  const [loading, setLoading] = useState(false);
-  // const [data, setData] = useState({
-  //   email: '',
-  //   username: '',
-  //   password: '',
-  //   passwordConfirm: '',
-  // });
-  const [email, setEmail] = useState('');
   const { handleChange } = useContext(ChatContext);
+  const { loading, logInAccount } = useContext(AuthContext);
+  // const history = useHistory();
 
-  const handleLogin = async (email) => {
-    try {
-      setLoading(true);
-      const { error } = await supabase.auth.signIn({ email });
-      if (error) throw error;
-      console.log('account created');
-    } catch (error) {
-      console.log(error.error_description || error.message);
-    } finally {
-      setLoading(false);
-    }
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    logInAccount(email);
   };
+
+  // const handleLogin = async (email) => {
+  //   try {
+  //     setLoading(true);
+  //     const { error } = await supabase.auth.signIn({ email });
+  //     if (error) throw error;
+  //     console.log('account created');
+  //   } catch (error) {
+  //     console.log(error.error_description || error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const location = useNavigate();
   const close = () => location('/');
@@ -44,27 +46,25 @@ const NewUser = () => {
           src={swords}
           alt='two crossed swords'
         />
-        <form onSubmit={handleLogin} method='post'>
+        <form onSubmit={handleSubmit}>
           <div className='mt-4'>
-            <p className='mb-1 text-sm text-gray-400'>Email</p>
+            <label className='mb-1 text-sm text-gray-400'>Email</label>
             <input
               name='email'
               type='email'
               value={email}
-              onChange={handleChange}
-              placeholder='Enter email'
+              onChange={(e) => setEmail(e.target.value)}
               required
               className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
             />
           </div>
-          <div className='mt-4'>
+          {/* <div className='mt-4'>
             <p className='mb-1 text-sm text-gray-400'>Username</p>
             <input
               name='username'
               type='text'
               // value={data.username}
               onChange={handleChange}
-              placeholder='Enter username'
               required
               className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
             />
@@ -76,7 +76,6 @@ const NewUser = () => {
               type='password'
               // value={data.password}
               onChange={handleChange}
-              placeholder='Password'
               required
               className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
             />
@@ -88,11 +87,10 @@ const NewUser = () => {
               type='password'
               // value={data.passwordConfirm}
               onChange={handleChange}
-              placeholder='Confirm password'
               required
               className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
             />
-          </div>
+          </div> */}
 
           <div className='mt-6 space-x-2'>
             <button

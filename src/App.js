@@ -4,11 +4,13 @@ import { Routes, Route, Link, useMatch } from 'react-router-dom';
 import './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { ChatProvider } from './Context/ChatContext';
+import { AuthProvider } from './Context/AuthContext';
 import {
   faCheckSquare,
   faCircle,
   faComment,
   faGamepad,
+  faCog,
 } from '@fortawesome/free-solid-svg-icons';
 import Home from './Home';
 import Aside from './Aside';
@@ -22,7 +24,7 @@ import Login from './Auth/Login';
 import Toast from './components/Toast';
 import Account from './Account';
 
-library.add(faGamepad, faCheckSquare, faComment, faCircle);
+library.add(faGamepad, faCheckSquare, faComment, faCircle, faCog);
 
 function useAside() {
   const matchRooms = useMatch('rooms/*');
@@ -46,31 +48,33 @@ function App() {
 
   return (
     <div className='App h-full flex flex-col sm:flex-row'>
-      <ChatProvider>
-        <Routes>
-          <Route path='rooms/new' element={null} />
-          <Route path='converstions/new' element={null} />
-          <Route path='users/new' element={null} />
-          <Route path='users/login' element={null} />
-          <Route path='*' element={<Aside />} />
-        </Routes>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='rooms/*' element={<ChatRoom />} />
-          <Route path='rooms/new' element={<NewRoom />} />
-          <Route path='users/*'>
-            <Route path='new' element={<NewUser />} />
-            <Route path='login' element={<Login />} />
-          </Route>
-          <Route path='conversations/new' element={<NewConverstaion />} />
-          <Route path='*' element={<NoMatch />} />
-        </Routes>
-        {!session ? (
-          <h1 className='bg-white-100'>hi</h1>
-        ) : (
-          <Account key={session.user.id} session={session} />
-        )}
-      </ChatProvider>
+      <AuthProvider>
+        <ChatProvider>
+          <Routes>
+            <Route path='rooms/new' element={null} />
+            <Route path='converstions/new' element={null} />
+            <Route path='users/new' element={null} />
+            <Route path='users/login' element={null} />
+            <Route path='*' element={<Aside session={session} />} />
+          </Routes>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='rooms/*' element={<ChatRoom />} />
+            <Route path='rooms/new' element={<NewRoom />} />
+            <Route path='users/*'>
+              <Route path='new' element={<NewUser />} />
+              <Route path='login' element={<Login />} />
+            </Route>
+            <Route path='conversations/new' element={<NewConverstaion />} />
+            <Route path='*' element={<NoMatch />} />
+          </Routes>
+          {!session ? (
+            <h1 className='bg-white-100'>hi</h1>
+          ) : (
+            <Account key={session.user.id} session={session} />
+          )}
+        </ChatProvider>
+      </AuthProvider>
     </div>
   );
 }

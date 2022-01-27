@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import { supabase } from '../supabaseClient';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../Context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import swords from '../assets/swords.png';
+import { supabase } from '../supabaseClient';
 
 const Login = () => {
   const location = useNavigate();
   const close = () => location('/');
 
+  const { loading, logInAccount } = useContext(AuthContext);
+
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    logInAccount(email);
+    close();
+  };
   return (
     <section className='flex w-screen items-center justify-center bg-slate-800'>
       <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-emerald-900 shadow-xl rounded-2xl relative'>
@@ -18,17 +28,19 @@ const Login = () => {
           src={swords}
           alt='two crossed swords'
         />
-        <form method='post'>
+        <form onSubmit={handleSubmit}>
           <div className='mt-4'>
-            <p className='mb-1 text-sm text-gray-400'>Username</p>
+            <p className='mb-1 text-sm text-gray-400'>Email</p>
             <input
-              name='username'
-              type='text'
+              name='email'
+              type='email'
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
             />
           </div>
-          <div className='mt-4'>
+          {/* <div className='mt-4'>
             <p className='mb-1 text-sm text-gray-400'>Password</p>
             <input
               name='password'
@@ -36,7 +48,7 @@ const Login = () => {
               required
               className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
             />
-          </div>
+          </div> */}
 
           <div className='mt-6 space-x-2'>
             <button

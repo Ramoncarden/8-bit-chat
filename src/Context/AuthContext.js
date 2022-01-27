@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { Children } from 'react/cjs/react.production.min';
 import { supabase } from '../supabaseClient';
 
@@ -24,11 +24,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = async () => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         loading,
         logInAccount,
+        logout,
       }}
     >
       {children}

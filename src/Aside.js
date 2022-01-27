@@ -4,6 +4,7 @@ import ChatButton from './components/ChatButton';
 import Rooms from './components/Rooms';
 import Conversations from './components/Conversations';
 import UserInfo from './components/UserInfo';
+import LogoutButton from './components/LogoutButton';
 
 /* Todo: 
 Add Discord login button
@@ -16,7 +17,8 @@ const Aside = ({ session }) => {
   return (
     <aside className='w-full h-full sm:w-80 px-2 bg-green-900 relative'>
       <div className='top-0 p-4 w-full flex flex-col items-center'>
-        <DiscordButton />
+        {session ? <LogoutButton /> : <DiscordButton />}
+
         {/* <ul className='flex flex-col overflow-hidden'></ul> */}
       </div>
       <ChatButton />

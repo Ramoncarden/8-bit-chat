@@ -4,13 +4,14 @@ import { Routes, Route, Link, useMatch } from 'react-router-dom';
 import './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { ChatProvider } from './Context/ChatContext';
-import { AuthProvider } from './Context/AuthContext';
+import AuthContext, { AuthProvider } from './Context/AuthContext';
 import {
   faCheckSquare,
   faCircle,
   faComment,
   faGamepad,
   faCog,
+  faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import Home from './Home';
 import Aside from './Aside';
@@ -20,11 +21,11 @@ import NewRoom from './forms/NewRoom';
 import NewConverstaion from './forms/NewConverstaion';
 import NewUser from './Auth/NewUser';
 import Login from './Auth/Login';
-
 import Toast from './components/Toast';
 import Account from './Account';
+import ProtectedRoute from './components/ProtectedRoute';
 
-library.add(faGamepad, faCheckSquare, faComment, faCircle, faCog);
+library.add(faGamepad, faCheckSquare, faComment, faCircle, faCog, faSignOutAlt);
 
 function useAside() {
   const matchRooms = useMatch('rooms/*');
@@ -46,6 +47,19 @@ function App() {
     });
   }, []);
 
+  const useReactQuerySubscription = () => {
+    useEffect(() => {
+      const websocket = new WebSocket('wss://echo.websocket.org/');
+      websocket.onopen = () => {
+        console.log('connected');
+      };
+
+      return () => {
+        websocket.close();
+      };
+    }, []);
+  };
+
   return (
     <div className='App h-full flex flex-col sm:flex-row'>
       <AuthProvider>
@@ -60,7 +74,14 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='rooms/*' element={<ChatRoom />} />
-            <Route path='rooms/new' element={<NewRoom />} />
+            <Route
+              path='rooms/new'
+              element={
+                <ProtectedRoute session={session}>
+                  <NewRoom />
+                </ProtectedRoute>
+              }
+            />
             <Route path='users/*'>
               <Route path='new' element={<NewUser />} />
               <Route path='login' element={<Login />} />

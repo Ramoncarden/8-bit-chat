@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import swords from '../assets/swords.png';
 import Toast from '../components/Toast';
 import { supabase } from '../supabaseClient';
@@ -10,7 +9,6 @@ import AuthContext from '../Context/AuthContext';
 const NewUser = () => {
   const { handleChange } = useContext(ChatContext);
   const { loading, logInAccount } = useContext(AuthContext);
-  // const history = useHistory();
 
   const [email, setEmail] = useState('');
 

@@ -86,7 +86,14 @@ function App() {
               <Route path='new' element={<NewUser />} />
               <Route path='login' element={<Login />} />
             </Route>
-            <Route path='conversations/new' element={<NewConverstaion />} />
+            <Route
+              path='conversations/new'
+              element={
+                <ProtectedRoute session={session}>
+                  <NewConverstaion />
+                </ProtectedRoute>
+              }
+            />
             <Route path='*' element={<NoMatch />} />
           </Routes>
           {!session ? (

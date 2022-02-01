@@ -2,7 +2,7 @@ import React from 'react';
 import AddNewButton from './AddNewButton';
 import { Link } from 'react-router-dom';
 
-const Conversations = () => {
+const Conversations = ({ session }) => {
   return (
     <section>
       <header className='h-10'>
@@ -18,7 +18,7 @@ const Conversations = () => {
           General
         </li>
         <li className='w-full'>General</li>
-        <li className='w-full'>General</li>
+        <li className='w-full'>{session.user.email}</li>
         <li className='w-full'>General</li>
       </ul>
     </section>

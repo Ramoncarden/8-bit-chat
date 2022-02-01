@@ -7,7 +7,7 @@ const ChatRoom = () => {
   const { formData, setFormData } = useContext(ChatContext);
   const time = new Date().toLocaleString();
   return (
-    <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>
+    <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative overflow-hidden'>
       <Banner />
       <div className='absolute bottom-20 left-3 leading-6'>
         <p className='inline-block text-gray-700 tracking-wide'>

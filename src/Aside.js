@@ -6,24 +6,17 @@ import Conversations from './components/Conversations';
 import UserInfo from './components/UserInfo';
 import LogoutButton from './components/LogoutButton';
 
-/* Todo: 
-Add Discord login button
-Add Chat logo
-Add rooms and add button
-Add room names
-Add the converstion and button */
-
 const Aside = ({ session }) => {
   return (
     <aside className='w-full h-full sm:w-80 px-2 bg-green-900 relative'>
-      <div className='top-0 p-4 w-full flex flex-col items-center'>
+      <div className='top-0 p-4 w-full flex flex-col items-center overflow-hidden'>
         {session ? <LogoutButton /> : <DiscordButton />}
 
         {/* <ul className='flex flex-col overflow-hidden'></ul> */}
       </div>
       <ChatButton />
       <Rooms />
-      <Conversations />
+      {session ? <Conversations session={session} /> : null}
       {session ? <UserInfo session={session} /> : null}
     </aside>
   );

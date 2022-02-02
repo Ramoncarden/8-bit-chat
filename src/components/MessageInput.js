@@ -1,13 +1,21 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ChatContext from '../Context/ChatContext';
 // import { useMessage, useMessageSend } from "../Context/MessageContext";
 import axios from 'axios';
 
-const MessageInput = () => {
+const MessageInput = ({ session }) => {
   // const message = useContext(Message);
   // const sendMessage = useMessageSend();
   const { formData, setFormData, handleChange, handleSubmit } =
     useContext(ChatContext);
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    {
+      session ? setIsDisabled(false) : setIsDisabled(true);
+    }
+  }, [session]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -23,10 +31,13 @@ const MessageInput = () => {
               value={formData.content}
               onChange={handleChange}
               // ref={inputRef}
-              className='bg-green-600 py-1 px-2 w-full rounded-lg focus:outline-none disabled:opacity-50'
+              className='bg-green-800 text-slate-200 py-1 px-2 w-full rounded-lg focus:outline-none disabled:opacity-50'
               type='text'
               // {...mustLogin}
-              placeholder='Enter Message'
+              disabled={isDisabled}
+              placeholder={
+                session ? 'Enter Message' : 'Must login to send messages'
+              }
             />
           </div>
         </label>

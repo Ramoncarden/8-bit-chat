@@ -3,7 +3,7 @@ import ChatContext from '../Context/ChatContext';
 import Banner from './Banner';
 import MessageInput from './MessageInput';
 
-const ChatRoom = () => {
+const ChatRoom = ({ session }) => {
   const { formData, setFormData } = useContext(ChatContext);
   const time = new Date().toLocaleString();
   return (
@@ -11,14 +11,16 @@ const ChatRoom = () => {
       <Banner />
       <div className='absolute bottom-20 left-3 leading-6'>
         <p className='inline-block text-gray-700 tracking-wide'>
+          <span className='text-xs italic ml-1 mr-3 mt-1 text-gray-500 float-left'>
+            ({time})
+          </span>
           <span className='float-left inline-block italic font-ps2 text-emerald-700 text-xs pt-1 tracking-wide mr-3'>
-            RegisteredChatUser
+            {session ? session.user.email : null}
           </span>
           {formData.content}
-          <span className='text-xs italic ml-2 text-gray-500'> ({time})</span>
         </p>
       </div>
-      <MessageInput />
+      <MessageInput session={session} />
     </div>
   );
 };

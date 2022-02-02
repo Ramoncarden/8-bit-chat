@@ -73,7 +73,7 @@ function App() {
           </Routes>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='rooms/*' element={<ChatRoom />} />
+            <Route path='rooms/*' element={<ChatRoom session={session} />} />
             <Route
               path='rooms/new'
               element={

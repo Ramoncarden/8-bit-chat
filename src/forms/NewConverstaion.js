@@ -66,6 +66,7 @@ const NewConverstaion = () => {
                           <img
                             className='w-8 h-8 rounded-full mr-4'
                             src={user.avatar}
+                            alt='user avatar'
                           />
                           {user.name}
                         </li>

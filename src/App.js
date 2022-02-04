@@ -96,9 +96,7 @@ function App() {
             />
             <Route path='*' element={<NoMatch />} />
           </Routes>
-          {!session ? (
-            <h1 className='bg-white-100'>hi</h1>
-          ) : (
+          {!session ? null : (
             <Account key={session.user.id} session={session} />
           )}
         </ChatProvider>

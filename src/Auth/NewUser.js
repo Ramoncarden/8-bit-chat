@@ -34,7 +34,10 @@ const NewUser = () => {
   const close = () => location('/');
 
   return (
-    <section className='flex w-screen items-center justify-center bg-slate-800'>
+    <section className='flex flex-col w-screen items-center justify-center bg-slate-800'>
+      <div className='flex'>
+        <Toast />
+      </div>
       <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-emerald-900 shadow-xl rounded-2xl relative'>
         <h3 className='text-lg font-medium leading-6 font-ps2 text-yellow-500'>
           Create Account

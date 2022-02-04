@@ -12,7 +12,7 @@ const ChatRoom = ({ session }) => {
       <div className='absolute bottom-20 left-3 leading-6'>
         <p className='inline-block text-gray-700 tracking-wide'>
           <span className='text-xs italic ml-1 mr-3 mt-1 text-gray-500 float-left'>
-            ({time})
+            {session ? time : null}
           </span>
           <span className='float-left inline-block italic font-ps2 text-emerald-700 text-xs pt-1 tracking-wide mr-3'>
             {session ? session.user.email : null}

@@ -3,45 +3,47 @@ import React from 'react';
 const Toast = () => {
   return (
     <div
-      className='bg-green-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3'
-      id='static-example'
+      id='toast-success'
+      className='flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-700 hidden'
       role='alert'
-      aria-live='assertive'
-      aria-atomic='true'
-      data-mdb-autohide='false'
     >
-      <div className='bg-green-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-green-400 rounded-t-lg'>
-        <p className='font-bold text-white flex items-center'>
-          <svg
-            aria-hidden='true'
-            focusable='false'
-            data-prefix='fas'
-            data-icon='check-circle'
-            className='w-4 h-4 mr-2 fill-current'
-            role='img'
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 512 512'
-          >
-            <path
-              fill='currentColor'
-              d='M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z'
-            ></path>
-          </svg>
-          New Account Alert!
-        </p>
-        <div className='flex items-center'>
-          <p className='text-white opacity-90 text-xs'>11 mins ago</p>
-          <button
-            type='button'
-            className='btn-close btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline'
-            data-mdb-dismiss='toast'
-            aria-label='Close'
-          ></button>
-        </div>
+      <div className='inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200'>
+        <svg
+          className='w-5 h-5'
+          fill='currentColor'
+          viewBox='0 0 20 20'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path
+            fillRule='evenodd'
+            d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+            clipRule='evenodd'
+          ></path>
+        </svg>
       </div>
-      <div className='p-3 bg-green-500 rounded-b-lg break-words text-white'>
-        Account has been created.
+      <div className='ml-3 text-sm font-normal'>
+        Success! Check email for magic link.
       </div>
+      <button
+        type='button'
+        className='ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-600'
+        data-collapse-toggle='toast-success'
+        aria-label='Close'
+      >
+        <span className='sr-only'>Close</span>
+        <svg
+          className='w-5 h-5'
+          fill='currentColor'
+          viewBox='0 0 20 20'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path
+            fillRule='evenodd'
+            d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+            clipRule='evenodd'
+          ></path>
+        </svg>
+      </button>
     </div>
   );
 };

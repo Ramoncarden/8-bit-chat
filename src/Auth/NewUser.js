@@ -8,12 +8,14 @@ import AuthContext from '../Context/AuthContext';
 
 const NewUser = () => {
   const { handleChange } = useContext(ChatContext);
-  const { loading, logInAccount } = useContext(AuthContext);
+  const { loading, logInAccount, close } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
+  const [show, setShow] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setShow(true);
     logInAccount(email);
   };
 
@@ -30,14 +32,9 @@ const NewUser = () => {
   //   }
   // };
 
-  const location = useNavigate();
-  const close = () => location('/');
-
   return (
     <section className='flex flex-col w-screen items-center justify-center bg-slate-800'>
-      <div className='flex'>
-        <Toast />
-      </div>
+      <div className='flex'>{show && <Toast />}</div>
       <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-emerald-900 shadow-xl rounded-2xl relative'>
         <h3 className='text-lg font-medium leading-6 font-ps2 text-yellow-500'>
           Create Account

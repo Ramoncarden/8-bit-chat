@@ -72,7 +72,7 @@ function App() {
             <Route path='*' element={<Aside session={session} />} />
           </Routes>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Home session={session} />} />
             <Route path='rooms/*' element={<ChatRoom session={session} />} />
             <Route
               path='rooms/new'

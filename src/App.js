@@ -69,6 +69,7 @@ function App() {
             <Route path='converstions/new' element={null} />
             <Route path='users/new' element={null} />
             <Route path='users/login' element={null} />
+            <Route path='users/account' element={null} />
             <Route path='*' element={<Aside session={session} />} />
           </Routes>
           <Routes>
@@ -85,6 +86,16 @@ function App() {
             <Route path='users/*'>
               <Route path='new' element={<NewUser />} />
               <Route path='login' element={<Login />} />
+              <Route
+                path='account'
+                element={
+                  <ProtectedRoute session={session}>
+                    {session ? (
+                      <Account key={session.user.id} session={session} />
+                    ) : null}
+                  </ProtectedRoute>
+                }
+              />
             </Route>
             <Route
               path='conversations/new'
@@ -96,9 +107,6 @@ function App() {
             />
             <Route path='*' element={<NoMatch />} />
           </Routes>
-          {!session ? null : (
-            <Account key={session.user.id} session={session} />
-          )}
         </ChatProvider>
       </AuthProvider>
     </div>

@@ -11,7 +11,7 @@ const UserInfo = ({ session }) => {
         </h2>
       </header>
       <div className='w-2/6 flex justify-end items-start mr-3'>
-        <Link to='/account'>
+        <Link to='/users/account'>
           <FontAwesomeIcon
             icon='cog'
             className='text-yellow-400 text-2xl float-right'

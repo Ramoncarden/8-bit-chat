@@ -11,7 +11,7 @@ const Account = ({ session }) => {
 
   const location = useNavigate();
 
-  const close = () => location(-1);
+  const close = () => location('/');
 
   useEffect(() => {
     getProfile();
@@ -63,39 +63,41 @@ const Account = ({ session }) => {
       alert(error.message);
     } finally {
       setLoading(false);
+      close();
     }
   };
 
   return (
-    <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-emerald-900 shadow-xl rounded-2xl relative'>
-      <h3 className='text-lg font-medium leading-6 font-ps2 text-yellow-500'>
-        Account
-      </h3>
-      <img
-        className='w-10 h-10 absolute top-4 right-5'
-        src={swords}
-        alt='two crossed swords'
-      />
-      <form method='post'>
+    <div className='fixed inset-0 z-10 overflow-y-auto bg-emerald-900 flex flex-row text-center'>
+      {/* <div className='min-h-screen px-4 text-center flex'> */}
+      <div className='inline-block mx-auto self-center p-6 my-8 overflow-hidden text-left transition-all transform bg-gray-400 shadow-xl rounded-2xl relative'>
+        <h3 className='text-lg font-medium leading-6 font-ps2 text-emerald-700'>
+          Player Account
+        </h3>
+        <img
+          className='w-10 h-10 absolute top-4 right-5'
+          src={swords}
+          alt='two crossed swords'
+        />
         <div className='mt-4'>
-          <label className='mb-1 text-sm text-gray-400' htmlFor='email'>
+          <label className='mb-1 text-sm text-gray-800' htmlFor='email'>
             Email{' '}
           </label>
           <input
             id='email'
-            className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
+            className='text-slate-700 bg-yellow-100 rounded-md py-2 px-4 w-full'
             type='text'
             value={session.user.email}
             disabled
           />
         </div>
         <div className='mt-4'>
-          <label className='mb-1 text-sm text-gray-400' htmlFor='username'>
+          <label className='mb-1 text-sm text-slate-900' htmlFor='username'>
             Username
           </label>
           <input
             id='username'
-            className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
+            className='text-slate-700 bg-yellow-100 rounded-md py-2 px-4 w-full'
             type='text'
             value={username || ''}
             onChange={(e) => setUsername(e.target.value)}
@@ -104,10 +106,10 @@ const Account = ({ session }) => {
         <div className='mt-6 space-x-2'>
           <button
             type='submit'
-            onClick={() => updateProfile({ username, website })}
+            onClick={() => updateProfile({ username })}
             className='inline-flex justify-center px-4 py-2 text-sm font-medium text-teal-900 bg-emerald-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500'
           >
-            Create
+            Update
           </button>
           <button
             type='button'
@@ -122,8 +124,15 @@ const Account = ({ session }) => {
           >
             Sign Out
           </button>
+          <button
+            className='inline-flex justify-center px-4 py-2 text-sm font-medium text-amber-600 bg-yellow-300 border border-transparent rounded-md hover:bg-yellow-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-500'
+            onClick={() => supabase.auth.signOut()}
+          >
+            Delete Account
+          </button>
         </div>
-      </form>
+      </div>
+      {/* </div> */}
     </div>
   );
 };

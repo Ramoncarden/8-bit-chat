@@ -2,16 +2,57 @@ import React, { useState, useContext, useEffect } from 'react';
 import ChatContext from '../Context/ChatContext';
 // import { useMessage, useMessageSend } from "../Context/MessageContext";
 import axios from 'axios';
+import { supabase } from '../supabaseClient';
 
 const MessageInput = ({ session }) => {
   // const message = useContext(Message);
   // const sendMessage = useMessageSend();
-  const { formData, setFormData, handleChange, handleSubmit } =
-    useContext(ChatContext);
-
+  const { formData, setFormData, handleChange } = useContext(ChatContext);
+  const [loading, setLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [formMessage, setFormMessage] = useState({
+    username: '',
+    content: '',
+  });
+
+  const getProfile = async () => {
+    try {
+      setLoading(true);
+      const user = supabase.auth.user();
+
+      let { data, error, status } = await supabase
+        .from('profiles')
+        .select(`username`)
+        .eq('id', user.id)
+        .single();
+
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      if (data) {
+        setFormMessage({ ...formMessage, username: data.username });
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { data, error } = await supabase
+        .from('messages')
+        .insert([formMessage]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    getProfile();
     {
       session ? setIsDisabled(false) : setIsDisabled(true);
     }
@@ -28,8 +69,10 @@ const MessageInput = ({ session }) => {
             <input
               name='content'
               id='content'
-              value={formData.content}
-              onChange={handleChange}
+              value={formMessage.content}
+              onChange={(e) =>
+                setFormMessage({ ...formMessage, content: e.target.value })
+              }
               // ref={inputRef}
               className='bg-green-800 text-slate-200 py-1 px-2 w-full rounded-lg focus:outline-none disabled:opacity-50'
               type='text'

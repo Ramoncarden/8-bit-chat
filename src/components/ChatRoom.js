@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import ChatContext from '../Context/ChatContext';
 import Banner from './Banner';
 import MessageInput from './MessageInput';
+import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 const ChatRoom = ({ session }) => {

@@ -16,27 +16,29 @@ const MessageInput = ({ session }) => {
   });
 
   const getProfile = async () => {
-    try {
-      setLoading(true);
-      const user = supabase.auth.user();
+    if (session) {
+      try {
+        setLoading(true);
+        const user = supabase.auth.user();
 
-      let { data, error, status } = await supabase
-        .from('profiles')
-        .select(`username`)
-        .eq('id', user.id)
-        .single();
+        let { data, error, status } = await supabase
+          .from('profiles')
+          .select(`username`)
+          .eq('id', user.id)
+          .single();
 
-      if (error && status !== 406) {
-        throw error;
+        if (error && status !== 406) {
+          throw error;
+        }
+
+        if (data) {
+          setFormMessage({ ...formMessage, username: data.username });
+        }
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        setLoading(false);
       }
-
-      if (data) {
-        setFormMessage({ ...formMessage, username: data.username });
-      }
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -46,6 +48,7 @@ const MessageInput = ({ session }) => {
       const { data, error } = await supabase
         .from('messages')
         .insert([formMessage]);
+      setFormMessage({ ...formMessage, content: '' });
     } catch (error) {
       console.log(error);
     }

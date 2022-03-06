@@ -74,7 +74,10 @@ function App() {
           </Routes>
           <Routes>
             <Route path='/' element={<Home session={session} />} />
-            <Route path='rooms/*' element={<ChatRoom session={session} />} />
+            <Route
+              path='rooms/:roomId'
+              element={<ChatRoom session={session} />}
+            />
             <Route
               path='rooms/new'
               element={

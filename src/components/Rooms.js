@@ -16,7 +16,6 @@ const Rooms = () => {
 
     if (data) {
       setChannel(data);
-      console.log(data);
     }
   };
 
@@ -38,7 +37,7 @@ const Rooms = () => {
             key={room.id}
             className='w-full text-slate-300 hover:text-slate-50 mb-1 hover:cursor-pointer'
           >
-            <Link to={`/rooms/${room.slug}`}>{room.slug}</Link>
+            <Link to={`/rooms/${room.id}`}>{room.slug}</Link>
           </li>
         ))}
       </ul>

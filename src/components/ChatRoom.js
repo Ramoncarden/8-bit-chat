@@ -8,36 +8,50 @@ import { supabase } from '../supabaseClient';
 const ChatRoom = ({ session }) => {
   const { formData, setFormData } = useContext(ChatContext);
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { roomId } = useParams();
 
+  //
   const getAllMessages = async () => {
-    let { data, error } = await supabase.from('messages').select('*');
-
-    if (error) {
-      console.log(error);
-    }
-
-    if (data) {
-      setMessages(data);
+    try {
+      setLoading(true);
+      console.log(roomId);
+      let { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('channel_id', roomId);
+      if (data) {
+        setMessages(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const messageSubscription = supabase
-    .from('messages')
-    .on('*', (message) => {
-      console.log('Change received!', message);
-    })
-    .subscribe();
-
+  /* Subscribe to messagelistener to get realtime messages when
+  roomId changes. unsubscribe at the end fixes memory leak
+  and infinite re-renders. */
   useEffect(() => {
     getAllMessages();
-  }, [messageSubscription]);
+    const messageSubscription = supabase
+      .from('messages')
+      .on('INSERT', (message) => {
+        console.log('Change received!', message);
+      })
+      .subscribe();
+    return () => {
+      supabase.removeSubscription(messageSubscription);
+    };
+  }, [roomId]);
 
   // ! PARENTHESIS TO RETURN ITEMS!!!
 
   return (
-    <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative overflow-hidden'>
+    <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>
       <Banner />
-      <div className='absolute bottom-20 left-3 leading-6'>
+      <div className='absolute bottom-20 left-3 leading-6 overflow-y-auto h-5/6 mr-2'>
         {messages.map((message) => (
           <div
             key={message.id}

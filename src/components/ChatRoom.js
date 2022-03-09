@@ -38,20 +38,21 @@ const ChatRoom = ({ session }) => {
     const messageSubscription = supabase
       .from('messages')
       .on('INSERT', (message) => {
-        console.log('Change received!', message);
+        setMessages((curMessages) => [...curMessages, message]);
+        getAllMessages();
       })
       .subscribe();
     return () => {
       supabase.removeSubscription(messageSubscription);
     };
-  }, [roomId]);
+  }, [roomId, messages.id]);
 
   // ! PARENTHESIS TO RETURN ITEMS!!!
 
   return (
     <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>
       <Banner />
-      <div className='absolute bottom-20 left-3 leading-6 overflow-y-auto h-5/6 mr-2'>
+      <div className='absolute bottom-20 left-3 leading-6 overflow-y-auto h-[88%] mr-2'>
         {messages.map((message) => (
           <div
             key={message.id}

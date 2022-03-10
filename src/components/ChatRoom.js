@@ -15,7 +15,6 @@ const ChatRoom = ({ session }) => {
   const getAllMessages = async () => {
     try {
       setLoading(true);
-      console.log(roomId);
       let { data, error } = await supabase
         .from('messages')
         .select('*')
@@ -52,7 +51,7 @@ const ChatRoom = ({ session }) => {
   return (
     <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>
       <Banner />
-      <div className='absolute bottom-20 left-3 leading-6 overflow-y-auto h-[88%] mr-2'>
+      <div className='absolute bottom-20 left-3 leading-6 overflow-y-auto h-[83%] mr-2'>
         {messages.map((message) => (
           <div
             key={message.id}

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import ChatContext from '../Context/ChatContext';
 // import { useMessage, useMessageSend } from "../Context/MessageContext";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 const MessageInput = ({ session }) => {
@@ -9,10 +10,12 @@ const MessageInput = ({ session }) => {
   // const sendMessage = useMessageSend();
   const { formData, setFormData, handleChange } = useContext(ChatContext);
   const [loading, setLoading] = useState(false);
+  const { roomId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const [formMessage, setFormMessage] = useState({
     username: '',
     content: '',
+    channel_id: roomId,
   });
 
   const getProfile = async () => {
@@ -32,7 +35,11 @@ const MessageInput = ({ session }) => {
         }
 
         if (data) {
-          setFormMessage({ ...formMessage, username: data.username });
+          setFormMessage({
+            ...formMessage,
+            username: data.username,
+            channel_id: roomId,
+          });
         }
       } catch (error) {
         console.log(error.message);
@@ -45,6 +52,7 @@ const MessageInput = ({ session }) => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      console.log(roomId);
       const { data, error } = await supabase
         .from('messages')
         .insert([formMessage]);
@@ -59,7 +67,8 @@ const MessageInput = ({ session }) => {
     {
       session ? setIsDisabled(false) : setIsDisabled(true);
     }
-  }, [session]);
+    setFormMessage({ ...formMessage, channel_id: roomId });
+  }, [session, roomId]);
 
   return (
     <form onSubmit={handleSubmit}>

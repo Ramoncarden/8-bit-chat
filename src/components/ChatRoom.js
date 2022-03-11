@@ -14,6 +14,7 @@ const ChatRoom = ({ session }) => {
   //
   const getAllMessages = async () => {
     try {
+      console.log('afdaf');
       setLoading(true);
       let { data, error } = await supabase
         .from('messages')
@@ -21,6 +22,7 @@ const ChatRoom = ({ session }) => {
         .eq('channel_id', roomId);
       if (data) {
         setMessages(data);
+        console.log(messages);
       }
     } catch (error) {
       console.log(error.message);
@@ -44,7 +46,7 @@ const ChatRoom = ({ session }) => {
     return () => {
       supabase.removeSubscription(messageSubscription);
     };
-  }, [roomId, messages.id]);
+  }, [roomId]);
 
   // ! PARENTHESIS TO RETURN ITEMS!!!
 

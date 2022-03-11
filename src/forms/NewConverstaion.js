@@ -1,14 +1,33 @@
-import React, { Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 const NewConverstaion = () => {
   const u = {};
   // const { users } = {};
   const users = {};
+  const [currentUsers, setCurrentUsers] = useState({});
   const navigate = useNavigate();
 
   const close = () => navigate(-1);
+
+  const gatherUsers = async () => {
+    let { data, error } = await supabase.from('profiles').select('*');
+
+    if (error) {
+      console.log(error);
+    }
+
+    if (data) {
+      setCurrentUsers(data);
+    }
+  };
+
+  useEffect(() => {
+    gatherUsers();
+  }, []);
+
   return (
     <Transition appear show as={Fragment}>
       <Dialog
@@ -72,6 +91,9 @@ const NewConverstaion = () => {
                         </li>
                       </Link>
                     ))}
+                  {/* {currentUsers.map((u) => (
+                    <li key={u.id}>{u.username}</li>
+                  ))} */}
                 </ul>
               </div>
               <div className='mt-6 space-x-2'>

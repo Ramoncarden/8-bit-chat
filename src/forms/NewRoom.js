@@ -1,12 +1,31 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import swords from '../assets/swords.png';
+import { supabase } from '../supabaseClient';
 
 const NewRoom = () => {
   const location = useNavigate();
 
   const close = () => location(-1);
+
+  const [formData, setFormData] = useState({
+    slug: '',
+    topic: '',
+  });
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { data, error } = await supabase
+        .from('channels')
+        .insert([{ slug: formData.slug, topic: formData.topic }]);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      close();
+    }
+  };
   return (
     <Transition appear show as={Fragment}>
       <Dialog
@@ -55,13 +74,18 @@ const NewRoom = () => {
                 src={swords}
                 alt='two crossed swords'
               />
-              <form method='post'>
+              <form onSubmit={handleSubmit}>
                 <div className='mt-4'>
                   <p className='mb-1 text-sm text-gray-400'>
                     What would you like to name your room?
                   </p>
                   <input
                     name='name'
+                    id='name'
+                    value={formData.slug}
+                    onChange={(e) =>
+                      setFormData({ ...formData, slug: e.target.value })
+                    }
                     className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
                   />
                 </div>
@@ -69,6 +93,14 @@ const NewRoom = () => {
                   <p className='mb-1 text-sm text-gray-400'>Room Topic</p>
                   <input
                     name='topic'
+                    id='topic'
+                    value={formData.topic}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        topic: e.target.value,
+                      })
+                    }
                     className='text-slate-700 bg-green-500 rounded-md py-2 px-4 w-full'
                   />
                 </div>

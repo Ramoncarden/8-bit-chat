@@ -31,7 +31,7 @@ const Rooms = () => {
           <AddNewButton />
         </Link>
       </header>
-      <ul className='mt-1 flex flex-col float-left ml-4 tracking-wider'>
+      <ul className='mt-1 flex flex-col float-left ml-4 tracking-wider h-[92%] w-[95%] overflow-y-auto'>
         {channel.map((room) => (
           <li
             key={room.id}

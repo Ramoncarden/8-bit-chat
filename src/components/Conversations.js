@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Conversations = ({ session }) => {
   return (
     <section>
-      <header className='h-10'>
+      <header className='h-10 mt-12'>
         <h2 className='font-ps2 text-yellow-700 float-left ml-4'>
           CONVERSATIONS
         </h2>

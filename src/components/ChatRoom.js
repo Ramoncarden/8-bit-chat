@@ -38,7 +38,7 @@ const ChatRoom = ({ session }) => {
     getAllMessages();
     const messageSubscription = supabase
       .from('messages')
-      .on('INSERT', (message) => {
+      .on('*', (message) => {
         setMessages((curMessages) => [...curMessages, message]);
         getAllMessages();
       })
@@ -53,7 +53,7 @@ const ChatRoom = ({ session }) => {
   return (
     <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>
       <Banner />
-      <div className='absolute bottom-20 left-3 leading-6 overflow-y-auto h-[83%] mr-2'>
+      <div className='leading-6 overflow-y-auto h-[84%] mx-2 flex flex-col mt-8 place-content-end'>
         {messages.map((message) => (
           <div
             key={message.id}

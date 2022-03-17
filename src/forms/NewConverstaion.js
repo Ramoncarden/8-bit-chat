@@ -2,9 +2,11 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import swords from '../assets/swords.png';
 
 const NewConverstaion = () => {
-  const u = {};
+  // const u = {};
+  const u = supabase.auth.user();
   // const { users } = {};
   const users = {};
   const [currentUsers, setCurrentUsers] = useState({});
@@ -26,6 +28,7 @@ const NewConverstaion = () => {
 
   useEffect(() => {
     gatherUsers();
+    console.log(currentUsers);
   }, []);
 
   return (
@@ -71,23 +74,23 @@ const NewConverstaion = () => {
               >
                 Message User
               </Dialog.Title>
-              <div className='mt-4 h-96 overflow-hidden'>
+              <div className='mt-4 h-96 overflow-y-auto'>
                 <ul className='space-y-2'>
-                  {Object.values(users)
+                  {Object.values(currentUsers)
                     .filter((user) => user.id !== u?.id)
                     .map((user) => (
                       <Link
                         key={user.id}
-                        className='block'
+                        className='block text-yellow-50 font-ps2 text-sm'
                         to={`/conversations/${user.id}`}
                       >
                         <li className='flex items-center'>
                           <img
                             className='w-8 h-8 rounded-full mr-4'
-                            src={user.avatar}
+                            src={swords}
                             alt='user avatar'
                           />
-                          {user.name}
+                          {user.username}
                         </li>
                       </Link>
                     ))}

@@ -16,8 +16,8 @@ const Aside = ({ session }) => {
       </div>
       <ChatButton />
       <Rooms />
-      {session ? <Conversations session={session} /> : null}
-      {session ? <UserInfo session={session} /> : null}
+      {session && <Conversations session={session} />}
+      {session && <UserInfo session={session} />}
     </aside>
   );
 };

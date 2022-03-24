@@ -104,7 +104,7 @@ function App() {
               path='conversations/new'
               element={
                 <ProtectedRoute session={session}>
-                  <NewConverstaion />
+                  <NewConverstaion session={session} />
                 </ProtectedRoute>
               }
             />

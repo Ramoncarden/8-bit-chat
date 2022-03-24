@@ -8,6 +8,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const location = useNavigate();
+  const [username, setUsername] = useState('');
   const close = () => location('/');
 
   // Authentication function for logging in new/old user with supabase magic link
@@ -21,6 +22,31 @@ export const AuthProvider = ({ children }) => {
       console.log('account created');
     } catch (error) {
       alert(error.error_description || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getProfile = async () => {
+    try {
+      setLoading(true);
+      const user = supabase.auth.user();
+
+      let { data, error, status } = await supabase
+        .from('profiles')
+        .select(`username`)
+        .eq('id', user.id)
+        .single();
+
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      if (data) {
+        setUsername(data.username);
+      }
+    } catch (error) {
+      alert(error.message);
     } finally {
       setLoading(false);
     }
@@ -45,6 +71,8 @@ export const AuthProvider = ({ children }) => {
         logInAccount,
         logout,
         close,
+        getProfile,
+        username,
       }}
     >
       {children}

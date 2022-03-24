@@ -28,6 +28,7 @@ const UserInfo = ({ session }) => {
 
       if (data) {
         setUsername(data.username);
+        return data.username;
       }
     } catch (error) {
       alert(error.message);

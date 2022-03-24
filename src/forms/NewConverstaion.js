@@ -1,16 +1,20 @@
 import React, { useState, useEffect, Fragment } from 'react';
+
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import swords from '../assets/swords.png';
+import { data } from 'autoprefixer';
 
-const NewConverstaion = () => {
-  // const u = {};
+const NewConverstaion = ({ session }) => {
   const u = supabase.auth.user();
-  // const { users } = {};
-  const users = {};
-  const [currentUsers, setCurrentUsers] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [currentUsers, setCurrentUsers] = useState([]);
   const navigate = useNavigate();
+  const [messageRecipient, setMessageRecipient] = useState({
+    sender: '',
+    recipient: '',
+  });
 
   const close = () => navigate(-1);
 
@@ -26,10 +30,65 @@ const NewConverstaion = () => {
     }
   };
 
+  const getProfile = async () => {
+    try {
+      setLoading(true);
+      const user = supabase.auth.user();
+
+      let { data, error, status } = await supabase
+        .from('profiles')
+        .select(`username`)
+        .eq('id', user.id)
+        .single();
+
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      if (data) {
+        setMessageRecipient({ ...messageRecipient, sender: data.username });
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      console.log(messageRecipient);
+
+      const { data, error } = await supabase
+        .from('conversations')
+        .insert([messageRecipient], { returning: 'minimal' });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+      close();
+    }
+  };
+
+  const handleChange = (e) => {
+    setMessageRecipient({
+      ...messageRecipient,
+      recipient: e.target.innerText,
+    });
+  };
+
+  // useEffect(() => {;
+  // }, [session]);
+
   useEffect(() => {
     gatherUsers();
-    console.log(currentUsers);
-  }, []);
+  }, [session]);
+
+  useEffect(() => {
+    getProfile();
+  }, [session]);
 
   return (
     <Transition appear show as={Fragment}>
@@ -75,38 +134,46 @@ const NewConverstaion = () => {
                 Message User
               </Dialog.Title>
               <div className='mt-4 h-96 overflow-y-auto'>
-                <ul className='space-y-2'>
-                  {Object.values(currentUsers)
-                    .filter((user) => user.id !== u?.id)
-                    .map((user) => (
-                      <Link
-                        key={user.id}
-                        className='block text-yellow-50 font-ps2 text-sm'
-                        to={`/conversations/${user.id}`}
-                      >
-                        <li className='flex items-center'>
-                          <img
-                            className='w-8 h-8 rounded-full mr-4'
-                            src={swords}
-                            alt='user avatar'
-                          />
-                          {user.username}
-                        </li>
-                      </Link>
-                    ))}
-                  {/* {currentUsers.map((u) => (
-                    <li key={u.id}>{u.username}</li>
-                  ))} */}
-                </ul>
-              </div>
-              <div className='mt-6 space-x-2'>
-                <button
-                  type='button'
-                  className='inline-flex justify-center px-4 py-2 text-sm font-medium text-teal-900 bg-emerald-100 border border-transparent rounded-md hover:bg-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500'
-                  onClick={close}
-                >
-                  Cancel
-                </button>
+                <form onSubmit={handleSubmit}>
+                  <ul className='space-y-2'>
+                    {currentUsers
+                      .filter((user) => user.id !== u?.id)
+                      .map((user) => (
+                        <button
+                          type='button'
+                          id={user.id}
+                          key={user.id}
+                          value={messageRecipient.recipient}
+                          onClick={handleChange}
+                          className='block w-full hover:bg-green-600 focus:bg-green-600 text-yellow-50 font-ps2 text-sm'
+                        >
+                          <li className='flex items-center'>
+                            <img
+                              className='w-8 h-8 rounded-full mr-4'
+                              src={swords}
+                              alt='user avatar'
+                            />
+                            {user.username}
+                          </li>
+                        </button>
+                      ))}
+                  </ul>
+                  <div className='mt-6 space-x-2'>
+                    <button
+                      type='button'
+                      className='inline-flex justify-center px-4 py-2 text-sm font-medium text-teal-900 bg-emerald-100 border border-transparent rounded-md hover:bg-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500'
+                      onClick={close}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type='submit'
+                      className='inline-flex justify-center px-4 py-2 text-sm font-medium text-teal-900 bg-emerald-100 border border-transparent rounded-md hover:bg-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500'
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </Transition.Child>

@@ -31,11 +31,17 @@ const ChatRoom = ({ session }) => {
     }
   };
 
+  const scrollToBottom = () => {
+    const chat = document.getElementById('chatList');
+    chat.scrollTop = chat.scrollHeight;
+  };
+
   /* Subscribe to messagelistener to get realtime messages when
   roomId changes. unsubscribe at the end fixes memory leak
   and infinite re-renders. */
   useEffect(() => {
     getAllMessages();
+    scrollToBottom();
     const messageSubscription = supabase
       .from('messages')
       .on('*', (message) => {
@@ -53,7 +59,10 @@ const ChatRoom = ({ session }) => {
   return (
     <div className='flex flex-col bg-orange-100 h-full sm:w-full h-screen relative'>
       <Banner />
-      <div className='leading-6 overflow-y-auto h-[84%] mx-2 flex flex-col mt-8 place-content-end'>
+      <div
+        id='chatList'
+        className='leading-6 overflow-y-auto h-[84%] mx-2 flex flex-col mt-8 place-content-end'
+      >
         {messages.map((message) => (
           <div
             key={message.id}
